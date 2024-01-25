@@ -22,8 +22,7 @@ public class ScreenmatchApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		ConsumoApi consumoApi = new ConsumoApi();
-		
+		var consumoApi = new ConsumoApi();
 		var json = consumoApi.obterDados("http://www.omdbapi.com/?t=gilmore+girls&apikey=9c30019");
 		System.out.println(json);
 		
@@ -45,5 +44,6 @@ public class ScreenmatchApplication implements CommandLineRunner {
 		}
 		
 		temporadas.forEach(System.out::println);
+		
 	}
 }
