@@ -1,5 +1,7 @@
 package br.com.watch.screenmatch.principal;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -15,7 +17,7 @@ import br.com.watch.screenmatch.service.ConverteDados;
 
 public class Principal {
 	
-	public Scanner scan = new Scanner(System.in);
+	public Scanner sc = new Scanner(System.in);
 	private ConsumoApi consumo = new ConsumoApi();
 	private ConverteDados conversor = new ConverteDados();
 	
@@ -24,7 +26,7 @@ public class Principal {
 
 	public void exibeMenu() {
 		System.out.print("Digite o nome da série para busca: ");
-		var nomeSerie = scan.nextLine();
+		var nomeSerie = sc.nextLine();
 		var json = consumo.obterDados(ENDERECO + nomeSerie.replace(" ", "+") + API_KEY);
 		
 		DadosSerie dados = conversor.obterDados(json, DadosSerie.class);
@@ -62,6 +64,17 @@ public class Principal {
 		
 		episodios.forEach(System.out::println);
 		
+		System.out.print("A partir de que ano você deseja ver os episódios: ");
+		var ano = sc.nextInt();
+		sc.nextLine();
+		
+		LocalDate dataBusca = LocalDate.of(ano, 1, 1);
+		
+		DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		
+		episodios.stream()
+			.filter(e -> e.getDataLancamento() != null && e.getDataLancamento().isAfter(dataBusca))
+			.forEach (e -> System.out.println("Temporada: " + e.getTemporada() + " Episódio: " + e.getTitulo() + " Data lançamento: " + e.getDataLancamento().format(fmt)));
 		
 	}
 	
