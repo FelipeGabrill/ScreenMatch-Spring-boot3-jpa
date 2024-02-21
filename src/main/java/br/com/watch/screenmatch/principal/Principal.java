@@ -6,9 +6,12 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import br.com.watch.screenmatch.model.DadosSerie;
 import br.com.watch.screenmatch.model.DadosTemporada;
 import br.com.watch.screenmatch.model.Serie;
+import br.com.watch.screenmatch.repository.SerieRepository;
 import br.com.watch.screenmatch.service.ConsumoApi;
 import br.com.watch.screenmatch.service.ConverteDados;
 
@@ -23,6 +26,13 @@ public class Principal {
 
 	private List<DadosSerie> dadosSeries = new ArrayList<>();
 	
+	private SerieRepository repositorio;
+	
+	
+	public Principal(SerieRepository repositorio) {
+		this.repositorio = repositorio;
+	}
+
 	public void exibeMenu() {
 		
 		var opcao = -1;
@@ -61,7 +71,9 @@ public class Principal {
 			
 	private void buscarSerieWeb() {
 		DadosSerie dados = getDadosSerie();
-		dadosSeries.add(dados);
+		Serie serie = new Serie(dados);
+		//dadosSeries.add(dados);
+		repositorio.save(serie);
 		System.out.println(dados);	
 	}	
 
