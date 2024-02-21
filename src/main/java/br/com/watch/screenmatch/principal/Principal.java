@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import br.com.watch.screenmatch.model.DadosSerie;
 import br.com.watch.screenmatch.model.DadosTemporada;
 import br.com.watch.screenmatch.model.Serie;
@@ -101,11 +99,7 @@ public class Principal {
 	
 	private void listarSeriesBuscadas() {
 		
-		List<Serie> series = new ArrayList<>();
-		series = dadosSeries.stream()
-				.map(d -> new Serie(d))
-				.collect(Collectors.toList());
-		
+		List<Serie> series = repositorio.findAll();
 		series.stream()
 				.sorted(Comparator.comparing(Serie::getGenero))
 				.forEach(System.out::println);

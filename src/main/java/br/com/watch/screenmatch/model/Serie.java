@@ -38,6 +38,8 @@ public class Serie {
 	@Transient
 	List<Episodio> episodios = new ArrayList<>();
 	
+	public Serie() { }
+	
 	public Serie(DadosSerie dadosSerie) {
 		this.titulo = dadosSerie.titulo();
 		this.totalTemporadas = dadosSerie.totalTemporadas();
@@ -122,7 +124,7 @@ public class Serie {
 
 	@Override
 	public String toString() {
-		return " genero=" + genero +
+		return "genero=" + genero +
 				", titulo " + titulo + 
 				"totalTemporadas=" + totalTemporadas + 
 				", avaliacao=" + avaliacao + 
