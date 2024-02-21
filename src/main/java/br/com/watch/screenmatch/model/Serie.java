@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.OptionalDouble;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -11,8 +12,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "series")
@@ -35,7 +36,7 @@ public class Serie {
 	private String poster;
 	private String sinopse;
 	
-	@Transient
+	@OneToMany(mappedBy = "serie", cascade = CascadeType.ALL)
 	List<Episodio> episodios = new ArrayList<>();
 	
 	public Serie() { }
@@ -126,7 +127,7 @@ public class Serie {
 	public String toString() {
 		return "genero=" + genero +
 				", titulo " + titulo + 
-				"totalTemporadas=" + totalTemporadas + 
+				", totalTemporadas=" + totalTemporadas + 
 				", avaliacao=" + avaliacao + 
 				", atores=" + atores + 
 				", poster=" + poster + 
