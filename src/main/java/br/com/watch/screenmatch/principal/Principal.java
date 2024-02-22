@@ -46,9 +46,11 @@ public class Principal {
 					5 - Buscar series por ator
 					6 - Top 5 series
 					7 - Buscar series por categoria
+					8 - Buscar series por temporada e avaliacao
 					0 - Sair
 					""";
 			System.out.println(menu);
+			System.out.print("Digite uma opcao: ");
 			opcao = sc.nextInt();
 			sc.nextLine();
 			
@@ -74,6 +76,9 @@ public class Principal {
 				break;
 			case 7: 
 				buscarSeriesPorCategoria();
+				break;
+			case 8: 
+				buscarSeriePorTemporadaEAvaliacao();
 				break;
 			case 0: 
 				System.out.println("Saindo...");
@@ -184,5 +189,19 @@ public class Principal {
 		
 		System.out.println("Series da categoria " + nomeGenero);
 		seriesPorCategoria.forEach(System.out::println);
+	}
+
+	private void buscarSeriePorTemporadaEAvaliacao() {
+		
+		System.out.print("Digite o numero maximo de temporadas: ");
+		var numeroMaximoTemporada = sc.nextInt();
+		
+		System.out.print("Digite a avaliacao minima: ");
+		var avaliacaoMinima = sc.nextDouble();
+		
+		List<Serie> seriePorTemporadaEAvaliacao = repositorio.seriesPorTemporadaEAvaliacao(numeroMaximoTemporada, avaliacaoMinima);
+		
+		System.out.println("Series encontradas");
+		seriePorTemporadaEAvaliacao.forEach(s -> System.out.println(s.getTitulo() + ", " + s.getAvaliacao()));	
 	}
 }
