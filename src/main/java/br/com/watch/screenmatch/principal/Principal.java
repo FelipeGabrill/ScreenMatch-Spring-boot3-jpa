@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+import br.com.watch.screenmatch.model.Categoria;
 import br.com.watch.screenmatch.model.DadosSerie;
 import br.com.watch.screenmatch.model.DadosTemporada;
 import br.com.watch.screenmatch.model.Episodio;
@@ -44,6 +45,7 @@ public class Principal {
 					4 - Buscar serie por titulo
 					5 - Buscar series por ator
 					6 - Top 5 series
+					7 - Buscar series por categoria
 					0 - Sair
 					""";
 			System.out.println(menu);
@@ -70,6 +72,9 @@ public class Principal {
 			case 6: 
 				buscarTop5Series();
 				break;
+			case 7: 
+				buscarSeriesPorCategoria();
+				break;
 			case 0: 
 				System.out.println("Saindo...");
 				break;
@@ -79,7 +84,6 @@ public class Principal {
 			}
 		}	
 	}	
-			
 
 	private void buscarSerieWeb() {
 		DadosSerie dados = getDadosSerie();
@@ -168,5 +172,17 @@ public class Principal {
 		List<Serie> serieTop = repositorio.findTop5ByOrderByAvaliacaoDesc();
 		
 		serieTop.forEach(s -> System.out.println(s.getTitulo() + " avaliacao: " + s.getAvaliacao()));
+	}
+	
+	private void buscarSeriesPorCategoria() {
+		
+		System.out.print("Digite as categoria/genero de series que deseja buscar: ");
+		var nomeGenero = sc.nextLine();
+		
+		Categoria categoria = Categoria.fromPortugues(nomeGenero);
+		List<Serie> seriesPorCategoria = repositorio.findByGenero(categoria);
+		
+		System.out.println("Series da categoria " + nomeGenero);
+		seriesPorCategoria.forEach(System.out::println);
 	}
 }
