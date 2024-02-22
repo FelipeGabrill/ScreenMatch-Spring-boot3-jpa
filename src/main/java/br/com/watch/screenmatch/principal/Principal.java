@@ -7,7 +7,6 @@ import java.util.Optional;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-import br.com.watch.screenmatch.model.DadosEpisodio;
 import br.com.watch.screenmatch.model.DadosSerie;
 import br.com.watch.screenmatch.model.DadosTemporada;
 import br.com.watch.screenmatch.model.Episodio;
@@ -42,7 +41,7 @@ public class Principal {
 					1 - Buscar séries
 					2 - Buscar episódios
 					3 - Listar séries buscadas
-					
+					4 - Buscar serie por titulo
 					0 - Sair
 					""";
 			System.out.println(menu);
@@ -60,6 +59,9 @@ public class Principal {
 			case 3: 
 				listarSeriesBuscadas();
 				break;
+			case 4: 
+				buscarSeriePorTitulo();
+				break;
 			case 0: 
 				System.out.println("Saindo...");
 				break;
@@ -70,6 +72,7 @@ public class Principal {
 		}	
 	}	
 			
+
 	private void buscarSerieWeb() {
 		DadosSerie dados = getDadosSerie();
 		Serie serie = new Serie(dados);
@@ -91,9 +94,7 @@ public class Principal {
 		System.out.print("Escolha uma serie pelo nome: ");
 		var nomeSerie = sc.nextLine();
 		
-		Optional<Serie> serie= series.stream()
-			.filter(s -> s.getTitulo().toLowerCase().contains(nomeSerie.toLowerCase()))
-			.findFirst();
+		Optional<Serie> serie= repositorio.findByTituloContainingIgnoreCase(nomeSerie);
 		
 		if (serie.isPresent()) {
 		
@@ -128,5 +129,18 @@ public class Principal {
 		series.stream()
 				.sorted(Comparator.comparing(Serie::getGenero))
 				.forEach(System.out::println);
+	}
+	
+	private void buscarSeriePorTitulo() {
+		System.out.print("Escolha uma serie pelo nome: ");
+		var nomeSerie = sc.nextLine();
+		
+		Optional<Serie> serieBuscada = repositorio.findByTituloContainingIgnoreCase(nomeSerie);
+		
+		if (serieBuscada.isPresent()) {
+			System.out.println("Dados da serie: " + serieBuscada.get());
+		} else {
+			System.out.println("Serie nao encontrada!");
+		}
 	}
 }
