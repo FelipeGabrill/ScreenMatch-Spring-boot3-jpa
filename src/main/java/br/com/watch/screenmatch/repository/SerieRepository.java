@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import br.com.watch.screenmatch.model.Categoria;
+import br.com.watch.screenmatch.model.Episodio;
 import br.com.watch.screenmatch.model.Serie;
 
 public interface SerieRepository extends JpaRepository<Serie, Long> {
@@ -23,4 +24,10 @@ public interface SerieRepository extends JpaRepository<Serie, Long> {
 	
 	@Query("select s from Serie s WHERE s.totalTemporadas < :numeroMaximoTemporada AND s.avaliacao >= :avaliacaoMinima")
 	List<Serie> seriesPorTemporadaEAvaliacao(Integer numeroMaximoTemporada, Double avaliacaoMinima);
+
+	@Query("SELECT e FROM Serie s JOIN s.episodios e WHERE e.titulo ILIKE %:trechoEpisodio%")
+	List<Episodio> episodiosPorTrecho(String trechoEpisodio);
+	
+	@Query("SELECT e FROM Serie s JOIN s.episodios e WHERE s = :serie ORDER BY e.avaliacao DESC LIMIT 5")	
+	List<Episodio> topEpisodiosPorSerie(Serie serie);
 }
