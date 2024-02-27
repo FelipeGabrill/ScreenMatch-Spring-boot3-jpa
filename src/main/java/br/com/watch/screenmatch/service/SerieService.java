@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.watch.screenmatch.dto.EpisodioDTO;
 import br.com.watch.screenmatch.dto.SerieDTO;
+import br.com.watch.screenmatch.model.Categoria;
 import br.com.watch.screenmatch.model.Serie;
 import br.com.watch.screenmatch.repository.SerieRepository;
 
@@ -61,6 +62,11 @@ public class SerieService {
 				.stream()
 				.map(e -> new EpisodioDTO(e.getTemporada(), e.getNumeroEpisodio(), e.getTitulo()))
 				.collect(Collectors.toList());
+	}
+
+	public List<SerieDTO> obterSeriesPorCategoria(String nomeGenero) {
+		Categoria categoria = Categoria.fromPortugues(nomeGenero);
+		return converteDados(repositorio.findByGenero(categoria));
 	}
 	
 }

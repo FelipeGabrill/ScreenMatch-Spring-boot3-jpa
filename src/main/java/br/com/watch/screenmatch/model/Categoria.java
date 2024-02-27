@@ -2,11 +2,11 @@ package br.com.watch.screenmatch.model;
 
 public enum Categoria {
 	
-	ACAO("Action", "Acao"),
+	ACAO("Action", "Ação"),
 	ROMANCE("Romance", "Romance"), 
-	COMEDIA("Comedy", "Comedia"),
+	COMEDIA("Comedy", "Comédia"),
 	DRAMA("Drama", "Drama"), 
-	CRIME("Crime", "Crima");
+	CRIME("Crime", "Crime");
 	
 	private String categoriaOmdb;
 	
